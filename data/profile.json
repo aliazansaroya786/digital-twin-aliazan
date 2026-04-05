@@ -1,0 +1,268 @@
+[
+  {
+    "id": "exp_001",
+    "category": "experience",
+    "text": "Ali Azan worked as a Support Worker at NSW Disability and Community Service from September 2024 to April 2025 in Marrickville, NSW. He facilitated community participation initiatives and daily activity planning, enabling clients to engage confidently in social, recreational, and skill-building programmes tailored to individual goals. This role required exceptional empathy, patience, and strong interpersonal communication skills to work effectively with people with diverse disabilities.",
+    "metadata": {
+      "role": "Support Worker",
+      "organization": "NSW Disability and Community Service",
+      "location": "Marrickville, NSW, Australia",
+      "date_start": "2024-09",
+      "date_end": "2025-04",
+      "skills": ["community support", "communication", "planning", "client advocacy", "disability support"],
+      "type": "work"
+    }
+  },
+  {
+    "id": "exp_002",
+    "category": "experience",
+    "text": "In his Support Worker role at NSW Disability and Community Service, Ali Azan implemented individualized support strategies to encourage independence, improve daily living skills, and ensure client well-being within diverse disability and community service settings. He developed personalized care plans for each client and monitored their progress toward achieving independence goals, demonstrating strong case management and analytical thinking skills.",
+    "metadata": {
+      "role": "Support Worker",
+      "organization": "NSW Disability and Community Service",
+      "location": "Marrickville, NSW, Australia",
+      "date_start": "2024-09",
+      "date_end": "2025-04",
+      "skills": ["case management", "individualized planning", "analytical thinking", "independence support"],
+      "type": "work"
+    }
+  },
+  {
+    "id": "exp_003",
+    "category": "experience",
+    "text": "As a Support Worker, Ali Azan advocated for clients by liaising with external agencies, streamlining access to essential community resources, healthcare services, and vocational programs tailored to individual needs. This required strong stakeholder communication, negotiation, and coordination skills across multiple organizations simultaneously, demonstrating his ability to manage complex relationships in a professional environment.",
+    "metadata": {
+      "role": "Support Worker",
+      "organization": "NSW Disability and Community Service",
+      "location": "Marrickville, NSW, Australia",
+      "date_start": "2024-09",
+      "date_end": "2025-04",
+      "skills": ["stakeholder communication", "negotiation", "coordination", "advocacy", "healthcare liaison"],
+      "type": "work"
+    }
+  },
+  {
+    "id": "exp_004",
+    "category": "experience",
+    "text": "Ali Azan worked as a Retail Team Member at Ampol Marsden Park from January 2023 to October 2023. He facilitated checkout operations and managed cash handling procedures to ensure smooth and efficient customer transactions while adhering to company policies. This role developed his skills in financial transaction management, attention to detail, and compliance with operational procedures in a fast-paced retail environment.",
+    "metadata": {
+      "role": "Retail Team Member",
+      "organization": "Ampol Marsden Park",
+      "location": "Marsden Park, NSW, Australia",
+      "date_start": "2023-01",
+      "date_end": "2023-10",
+      "skills": ["cash handling", "customer service", "compliance", "retail operations", "attention to detail"],
+      "type": "work"
+    }
+  },
+  {
+    "id": "exp_005",
+    "category": "experience",
+    "text": "In his retail role at Ampol Marsden Park, Ali Azan monitored inventory levels and restocked shelves, ensuring product availability and a well-organized sales floor in alignment with merchandising standards. He developed strong organizational skills and the ability to manage multiple tasks simultaneously while maintaining accuracy in stock management and product placement across different product categories.",
+    "metadata": {
+      "role": "Retail Team Member",
+      "organization": "Ampol Marsden Park",
+      "location": "Marsden Park, NSW, Australia",
+      "date_start": "2023-01",
+      "date_end": "2023-10",
+      "skills": ["inventory management", "organization", "merchandising", "stock control", "multitasking"],
+      "type": "work"
+    }
+  },
+  {
+    "id": "exp_006",
+    "category": "experience",
+    "text": "Ali Azan addressed customer inquiries and resolved concerns at the service counter at Ampol Marsden Park, enhancing customer satisfaction and fostering positive shopping experiences in a fast-paced retail environment. This role strengthened his conflict resolution abilities, active listening skills, and capacity to remain calm and professional under pressure while dealing with diverse customers.",
+    "metadata": {
+      "role": "Retail Team Member",
+      "organization": "Ampol Marsden Park",
+      "location": "Marsden Park, NSW, Australia",
+      "date_start": "2023-01",
+      "date_end": "2023-10",
+      "skills": ["conflict resolution", "customer satisfaction", "active listening", "problem solving"],
+      "type": "work"
+    }
+  },
+  {
+    "id": "exp_007",
+    "category": "experience",
+    "text": "Ali Azan worked as a Field Manager at Syban Group in Narang Mandi, Punjab, Pakistan from September 2019 to October 2020. He coordinated the distribution and demonstration of agricultural products to local communities, facilitating widespread adoption and gathering feedback to inform improvements in outreach strategies. This leadership role required strong community engagement, product knowledge, and strategic thinking.",
+    "metadata": {
+      "role": "Field Manager",
+      "organization": "Syban Group",
+      "location": "Narang Mandi, Punjab, Pakistan",
+      "date_start": "2019-09",
+      "date_end": "2020-10",
+      "skills": ["field management", "community engagement", "product distribution", "strategic planning", "leadership"],
+      "type": "work"
+    }
+  },
+  {
+    "id": "exp_008",
+    "category": "experience",
+    "text": "As Field Manager at Syban Group, Ali Azan directed field operations for product trials, monitored crop performance, and synthesized data from farmer reports to refine deployment methods and maximize product effectiveness. This demonstrated his strong data analysis and reporting skills, ability to work with quantitative agricultural data, and commitment to evidence-based decision making in complex field environments.",
+    "metadata": {
+      "role": "Field Manager",
+      "organization": "Syban Group",
+      "location": "Narang Mandi, Punjab, Pakistan",
+      "date_start": "2019-09",
+      "date_end": "2020-10",
+      "skills": ["data analysis", "reporting", "operations management", "performance monitoring", "decision making"],
+      "type": "work"
+    }
+  },
+  {
+    "id": "exp_009",
+    "category": "experience",
+    "text": "In his Field Manager role at Syban Group, Ali Azan implemented training programs for local staff and partner organizations, equipping teams with best practices for product application and ensuring adherence to compliance standards in diverse field environments. This experience demonstrated his leadership, training facilitation, and ability to communicate complex technical information clearly to non-technical audiences.",
+    "metadata": {
+      "role": "Field Manager",
+      "organization": "Syban Group",
+      "location": "Narang Mandi, Punjab, Pakistan",
+      "date_start": "2019-09",
+      "date_end": "2020-10",
+      "skills": ["training facilitation", "team leadership", "compliance", "technical communication", "mentoring"],
+      "type": "work"
+    }
+  },
+  {
+    "id": "edu_001",
+    "category": "education",
+    "text": "Ali Azan is currently completing a Bachelor of Business Information Systems Management with a Minor in Accounting at Victoria University in Sydney NSW. This degree combines technology and business knowledge, covering information systems, data analysis, database management, business intelligence, enterprise systems, and accounting fundamentals. The program prepares graduates for roles in IT management, data analysis, and business systems consultancy.",
+    "metadata": {
+      "role": "Student",
+      "organization": "Victoria University",
+      "location": "Sydney City, NSW, Australia",
+      "date_start": "2022-01",
+      "date_end": "present",
+      "skills": ["information systems", "data analysis", "database management", "business intelligence", "accounting"],
+      "type": "education"
+    }
+  },
+  {
+    "id": "edu_002",
+    "category": "education",
+    "text": "Ali Azan completed a Diploma of Business at the University of Wollongong College in Wollongong NSW from 2021 to 2022. This diploma provided foundational business knowledge including business communications, marketing principles, organizational behavior, and business operations management. This qualification was the pathway to his current Bachelor degree at Victoria University.",
+    "metadata": {
+      "role": "Student",
+      "organization": "University of Wollongong College",
+      "location": "Wollongong, NSW, Australia",
+      "date_start": "2021-01",
+      "date_end": "2022-12",
+      "skills": ["business communications", "marketing", "organizational behavior", "business operations"],
+      "type": "education"
+    }
+  },
+  {
+    "id": "edu_003",
+    "category": "education",
+    "text": "Ali Azan completed his Intermediate Certificate at Government Inter College on Ravi Road Shahdara in Lahore Punjab Pakistan in 2018-2019. This qualification provided strong foundational academic skills and prepared him for higher education. His successful transition from Pakistan to Australia for university studies demonstrates adaptability, resilience, and strong commitment to academic and professional growth.",
+    "metadata": {
+      "role": "Student",
+      "organization": "Gov. Inter College, Ravi Road Shahdara",
+      "location": "Lahore, Punjab, Pakistan",
+      "date_start": "2018-01",
+      "date_end": "2019-12",
+      "skills": ["academic foundations", "adaptability", "resilience"],
+      "type": "education"
+    }
+  },
+  {
+    "id": "skill_001",
+    "category": "skills",
+    "text": "Ali Azan is multilingual and fluent in four languages: English, Urdu, Hindi, and Punjabi. This multilingual capability is a significant professional asset enabling effective communication with diverse communities across South Asian, Middle Eastern, and Australian cultural backgrounds. His language skills make him highly effective in multicultural workplace environments and community service roles requiring cross-cultural communication.",
+    "metadata": {
+      "role": "Professional Skills",
+      "organization": "General",
+      "location": "Australia",
+      "date_start": "2000-01",
+      "date_end": "present",
+      "skills": ["English", "Urdu", "Hindi", "Punjabi", "multilingual", "cross-cultural communication"],
+      "type": "skill"
+    }
+  },
+  {
+    "id": "skill_002",
+    "category": "skills",
+    "text": "Ali Azan has developed strong technical skills in AI and data systems through his university studies and personal projects. He has hands-on experience building RAG (Retrieval-Augmented Generation) systems using Python, ChromaDB, Upstash Vector Database, and Groq LLM API. He has successfully deployed cloud-based AI applications using Vercel and Next.js, demonstrating practical full-stack AI development capability.",
+    "metadata": {
+      "role": "Technical Skills",
+      "organization": "Victoria University / Personal Projects",
+      "location": "Sydney, NSW, Australia",
+      "date_start": "2022-01",
+      "date_end": "present",
+      "skills": ["Python", "RAG", "vector databases", "Upstash", "Groq", "Next.js", "Vercel", "AI development"],
+      "type": "skill"
+    }
+  },
+  {
+    "id": "skill_003",
+    "category": "skills",
+    "text": "Ali Azan possesses strong business analysis and information systems skills developed through his Bachelor of Business Information Systems Management degree at Victoria University. He understands business process analysis, systems thinking, requirements gathering, and how to bridge the gap between technical solutions and business needs. His minor in Accounting adds financial literacy and analytical thinking to his business skill set.",
+    "metadata": {
+      "role": "Business Skills",
+      "organization": "Victoria University",
+      "location": "Sydney, NSW, Australia",
+      "date_start": "2022-01",
+      "date_end": "present",
+      "skills": ["business analysis", "information systems", "requirements gathering", "accounting", "financial literacy"],
+      "type": "skill"
+    }
+  },
+  {
+    "id": "skill_004",
+    "category": "skills",
+    "text": "Ali Azan demonstrates strong interpersonal and soft skills developed across multiple work environments including disability support, retail, and field management. He excels at client advocacy, stakeholder communication, team coordination, conflict resolution, and cross-cultural communication. His experience working with vulnerable populations in disability services has particularly strengthened his empathy, patience, and professional ethics.",
+    "metadata": {
+      "role": "Soft Skills",
+      "organization": "Multiple Organizations",
+      "location": "NSW, Australia",
+      "date_start": "2019-01",
+      "date_end": "present",
+      "skills": ["interpersonal communication", "team coordination", "conflict resolution", "empathy", "professional ethics"],
+      "type": "skill"
+    }
+  },
+  {
+    "id": "achieve_001",
+    "category": "achievement",
+    "text": "Ali Azan successfully migrated from Pakistan to Australia to pursue higher education, demonstrating exceptional resilience, adaptability, and determination. He transitioned from his Intermediate Certificate in Lahore to completing a Diploma in Wollongong and then enrolling in a Bachelor degree in Sydney. This international academic journey across two countries showcases his ability to adapt to new environments and thrive in challenging circumstances.",
+    "metadata": {
+      "role": "Personal Achievement",
+      "organization": "General",
+      "location": "Australia",
+      "date_start": "2021-01",
+      "date_end": "present",
+      "skills": ["resilience", "adaptability", "determination", "international experience"],
+      "type": "achievement"
+    }
+  },
+  {
+    "id": "achieve_002",
+    "category": "achievement",
+    "text": "Ali Azan successfully built and deployed a complete AI-powered Food RAG system as part of his university coursework. The system used ChromaDB for local vector storage, Ollama for local LLM inference, and was later migrated to cloud infrastructure using Upstash Vector and Groq API. He further deployed a Next.js web application on Vercel accessible worldwide, demonstrating end-to-end AI application development capability.",
+    "metadata": {
+      "role": "Technical Achievement",
+      "organization": "Victoria University",
+      "location": "Sydney, NSW, Australia",
+      "date_start": "2024-01",
+      "date_end": "present",
+      "skills": ["AI development", "cloud migration", "full-stack development", "project completion"],
+      "type": "achievement"
+    }
+  },
+  {
+    "id": "achieve_003",
+    "category": "achievement",
+    "text": "Ali Azan successfully balanced full-time university studies with part-time professional work in disability support services, demonstrating exceptional time management, organizational skills, and commitment to both academic and professional development simultaneously. His ability to maintain performance in demanding academic and work environments reflects strong personal discipline and professional maturity.",
+    "metadata": {
+      "role": "Personal Achievement",
+      "organization": "Victoria University / NSW Disability Services",
+      "location": "Sydney, NSW, Australia",
+      "date_start": "2024-01",
+      "date_end": "present",
+      "skills": ["time management", "work-life balance", "multitasking", "professional maturity"],
+      "type": "achievement"
+    }
+  }
+]
