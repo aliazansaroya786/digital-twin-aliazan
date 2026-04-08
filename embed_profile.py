@@ -19,16 +19,13 @@ with open("data/profile.json", "r", encoding="utf-8") as f:
 info = index.info()
 print(f"📊 Existing vectors: {info.vector_count}")
 
-if info.vector_count == 0:
-    print(f"\n🆕 Embedding {len(chunks)} profile chunks...")
+if True:  # Always re-embed for testing
+    print(f"\n🔄 Re-embedding {len(chunks)} profile chunks...")
     
     for i, chunk in enumerate(chunks):
-        # Enrich text with metadata for better retrieval
-        enriched = f"{chunk['text']} Role: {chunk['metadata']['role']}. Organization: {chunk['metadata']['organization']}. Skills: {', '.join(chunk['metadata']['skills'])}."
-        
         index.upsert(vectors=[{
             "id": chunk["id"],
-            "data": enriched,
+            "data": f"{chunk['text']} {', '.join(chunk['metadata']['skills'])}",
             "metadata": {
                 "text": chunk["text"],
                 "category": chunk["category"],
@@ -40,7 +37,7 @@ if info.vector_count == 0:
         }])
         print(f"  ✅ ({i+1}/{len(chunks)}) Embedded: {chunk['id']}")
     
-    print(f"\n✅ All {len(chunks)} chunks embedded successfully!")
+    print(f"\n✅ All {len(chunks)} chunks re-embedded successfully!")
 else:
     print(f"✅ Already have {info.vector_count} vectors. Skipping.")
 
