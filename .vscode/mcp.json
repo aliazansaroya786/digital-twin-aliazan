@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "digital-twin-aliazan": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["${workspaceFolder}/mcp_server.py"],
+      "env": {
+        "UPSTASH_VECTOR_REST_URL": "${env:UPSTASH_VECTOR_REST_URL}",
+        "UPSTASH_VECTOR_REST_TOKEN": "${env:UPSTASH_VECTOR_REST_TOKEN}"
+      }
+    }
+  }
+}
