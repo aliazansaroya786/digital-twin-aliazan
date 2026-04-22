@@ -1,187 +1,212 @@
-# Digital Twin — Ali Azan
+# 🤖 Digital Twin — Ali Azan
 
-> An AI-powered Digital Twin built on RAG (Retrieval-Augmented Generation) that conducts professional job interviews on behalf of Ali Azan using real career data stored in a vector database.
-
----
-
-## About
-
-| Field | Detail |
-|---|---|
-| **Student** | Ali Azan |
-| **Course** | Bachelor of Business Information Systems Management (Minor in Accounting) |
-| **University** | Victoria University, Sydney NSW |
-| **Project** | AI Data Analyst Industry Project — Digital Twin |
-| **Status** | ✅ Complete and tested |
+> An AI-powered Digital Twin that conducts professional job interviews autonomously using RAG (Retrieval-Augmented Generation) with real career evidence stored in Upstash Vector Database.
 
 ---
 
-## Project Overview
+## 👤 About
 
-When an AI agent is given a job description, it retrieves real evidence from Ali Azan's career history stored in Upstash Vector Database and responds accurately on his behalf using STAR format answers, then generates a scored interview report with a pass/fail recommendation.
-
-**Tested result:** 86% — STRONG PASS against Junior Business Analyst role at TechBridge Australia.
+**Student:** Ali Azan  
+**Course:** Bachelor of Business Information Systems Management (Minor in Accounting)  
+**University:** Victoria University, Sydney NSW  
+**Email:** aliazansaroya786@gmail.com
 
 ---
 
-## How It Works
+## 🌐 Live Demo
+
+🔗 **Web Application:** [Add Vercel URL after deployment]  
+🔗 **GitHub Repository:** https://github.com/aliazansaroya786/digital-twin-aliazan
+
+---
+
+## 🏗️ System Architecture
 
 ```
 Job Description Input
-        │
-VS Code Agent Mode (GitHub Copilot)
-        │
-MCP Tool Call ──► rag_search()
-        │
-Upstash Vector Database (19 profile chunks, bge-large-en-v1.5)
-        │
-Retrieved Career Evidence (chunk IDs + similarity scores)
-        │
-STAR Format Answer (first person, evidence-cited)
-        │
-Pass/Fail Report (score out of 100%)
+        ↓
+Interview Agent (Groq llama-3.3-70b)
+        ↓
+RAG Search Tool (rag_search)
+        ↓
+Upstash Vector Database
+(Ali Azan's 20 career profile chunks)
+        ↓
+Retrieved Evidence
+        ↓
+STAR Format Answer
+        ↓
+Score + Pass/Fail Report
 ```
 
-Every interview answer is grounded in retrieved vector chunks —
-the agent cannot answer without first calling `rag_search()`.
+---
+
+## 🚀 Development Journey
+
+```
+WEEK 1 — Foundation
+──────────────────
+GitHub repo, README, PRD, agents.md, ClickUp
+
+WEEK 2 — Data & Embeddings
+──────────────────────────
+profile.json (20 chunks), embed_profile.py
+Upstash Vector DB, design.md
+
+WEEK 3 — Interview Agent
+─────────────────────────
+mcp_server.py (RAG tool)
+interview_agent.py (Python CLI)
+Autonomous interview + report generation
+
+WEEK 4 — Web Interface
+───────────────────────
+v0.dev Next.js web app
+Vercel deployment
+Live interview UI
+
+WEEK 5 — Polish & Analytics
+────────────────────────────
+Enhanced data quality
+Analytics dashboard
+Performance metrics
+
+WEEK 6 — Final Presentation
+────────────────────────────
+Demo video
+Final documentation
+Presentation slides
+```
 
 ---
 
-## Technology Stack
+## 🛠️ Technology Stack
 
 | Component | Technology |
-|---|---|
-| Vector Database | Upstash Vector |
-| Embedding Model | bge-large-en-v1.5 |
-| LLM / Agent | GitHub Copilot Agent Mode (VS Code Insider) |
-| MCP Framework | FastMCP (Python) |
-| Project Manager | ClickUp |
-| Version Control | GitHub |
-| Language | Python 3.13 |
+|-----------|-----------|
+| Vector Database | Upstash Vector (bge-large-en-v1.5) |
+| LLM | Groq llama-3.3-70b-versatile |
+| Python Agent | Python 3.9+ |
+| Web Frontend | Next.js 15, TypeScript, Shadcn UI |
+| Deployment | Vercel |
+| Project Management | ClickUp |
 
 ---
 
-## Repository Structure
+## 📁 Repository Structure
 
 ```
 digital-twin-aliazan/
-├── mcp_server.py              # MCP server exposing rag_search() tool
-├── embed_profile.py           # Embeds profile.json into Upstash Vector
-├── agents.md                  # Agent behaviour rules and interview instructions
-├── README.md                  # This file
-├── .env                       # Secret keys (never commit to GitHub)
-├── .vscode/
-│   └── mcp.json               # Registers MCP server with VS Code Insider
+├── agents.md                     # Agent behaviour instructions
+├── README.md                     # This file
+├── embed_profile.py              # Upload career data to Upstash
+├── mcp_server.py                 # RAG search tool
+├── interview_agent.py            # Python CLI interview agent
+├── v0_prompt.md                  # Prompt to build web interface
+├── .env.example                  # Environment variables template
+├── .gitignore
 ├── data/
-│   └── profile.json           # Ali Azan's career data (19 chunks)
+│   └── profile.json              # Ali Azan's career profile (20 chunks)
 ├── jobs/
-│   └── sample-job.md          # Sample job description for testing
+│   └── sample-job.md             # Sample job descriptions
+├── reports/                      # Generated interview reports (auto-created)
 └── docs/
-    ├── prd.md
-    ├── design.md
-    └── implementation-plan.md
+    ├── prd.md                    # Product Requirements Document
+    ├── design.md                 # Technical Design
+    └── implementation-plan.md   # Week by week plan
 ```
 
 ---
 
-## Setup Instructions
+## 💻 Getting Started
 
 ### Prerequisites
-- VS Code Insider Edition
-- GitHub Copilot Pro subscription
-- Upstash Vector account (free tier works)
-- Python 3.9+
+```
+Python 3.9+
+pip install upstash-vector groq python-dotenv
+```
 
-### Step 1 — Install dependencies
+### Setup
 ```bash
-pip install fastmcp upstash-vector python-dotenv
-```
+# Clone repo
+git clone https://github.com/aliazansaroya786/digital-twin-aliazan.git
+cd digital-twin-aliazan
 
-### Step 2 — Configure environment
-Create a `.env` file in the project root:
-```
-UPSTASH_VECTOR_REST_URL=your_upstash_url_here
-UPSTASH_VECTOR_REST_TOKEN=your_upstash_token_here
-```
+# Install dependencies
+pip install upstash-vector groq python-dotenv
 
-### Step 3 — Embed profile data
-```bash
+# Configure credentials
+cp .env.example .env
+# Edit .env with your credentials
+
+# Upload career data to Upstash
 python embed_profile.py
-```
-Expected output: 19 chunks embedded, semantic search tests passing.
 
-### Step 4 — Register MCP server in VS Code
-- Open VS Code Insider
-- Press `Ctrl+Shift+P` → type **MCP: List Servers**
-- Confirm `digital-twin-aliazan` shows as **Running**
-- Verify `Discovered 1 tools` appears in MCP output logs
+# Test RAG search tool
+python mcp_server.py
 
-### Step 5 — Run an interview
-- Open GitHub Copilot Chat (`Ctrl+Alt+I`)
-- Switch to **Agent** mode (dropdown at top of chat panel)
-- Paste this prompt:
-
-```
-You are the Digital Twin interview agent for Ali Azan.
-
-CRITICAL: You MUST call rag_search before EVERY answer.
-Do NOT use Agents.md as a data source — it is configuration only.
-Do NOT answer from memory.
-
-Read jobs/sample-job.md.
-Conduct 5 questions following the rules in AGENTS.md exactly.
-For each answer, show which chunk IDs were retrieved before answering.
-Then generate the final report.
+# Run Python CLI interview
+python interview_agent.py
 ```
 
 ---
 
-## Profile Data — 19 Chunks
+## 🔑 Environment Variables
 
-| Chunk ID | Category | Description |
-|---|---|---|
-| exp_001–003 | Experience | Support Worker, NSW Disability Services (2024–2025) |
-| exp_004–006 | Experience | Retail Team Member, Ampol (2023) |
-| exp_007–009 | Experience | Field Manager, Syban Group Pakistan (2019–2020) |
-| edu_001 | Education | Bachelor BISM, Victoria University Sydney (current) |
-| edu_002 | Education | Diploma of Business, UOW College (2021–2022) |
-| edu_003 | Education | Intermediate Certificate, Lahore Pakistan (2018–2019) |
-| skill_001 | Skills | Multilingual — English, Urdu, Hindi, Punjabi |
-| skill_002 | Skills | Technical — Python, RAG, Upstash, Groq, Next.js, Vercel |
-| skill_003 | Skills | Business analysis, information systems, accounting |
-| skill_004 | Skills | Soft skills — communication, conflict resolution, empathy |
-| achieve_001 | Achievement | Pakistan to Australia migration and academic journey |
-| achieve_002 | Achievement | Built and deployed Food RAG AI app (ChromaDB + Ollama + Vercel) |
-| achieve_003 | Achievement | Balanced full-time study with part-time disability support work |
-
----
-
-## Environment Variables
-
-```
-UPSTASH_VECTOR_REST_URL      Your Upstash Vector REST endpoint
-UPSTASH_VECTOR_REST_TOKEN    Your Upstash Vector token
+```env
+UPSTASH_VECTOR_REST_URL=your_url
+UPSTASH_VECTOR_REST_TOKEN=your_token
+GROQ_API_KEY=your_groq_key
 ```
 
-> ⚠️ Never commit `.env` to GitHub. It is listed in `.gitignore`.
+---
+
+## 🎯 How to Run an Interview
+
+### Option 1 — Python CLI
+```bash
+python interview_agent.py
+# Paste job description when prompted
+# Type END when done
+# Interview runs automatically
+# Report saved to reports/ folder
+```
+
+### Option 2 — Web Interface
+```
+Visit the live Vercel URL
+Select interviewer role
+Paste job description
+Click Start Interview
+Watch autonomous interview
+See pass/fail result
+```
 
 ---
 
-## Test Results
+## 📊 Interview Report Sample
 
-| Metric | Result |
-|---|---|
-| MCP Server Status | ✅ Running |
-| Tools Discovered | ✅ 1 (rag_search) |
-| Chunks Embedded | ✅ 19 / 19 |
-| Interview Score | ✅ 86% |
-| Pass/Fail Decision | ✅ STRONG PASS |
-| RAG calls per answer | ✅ Every question |
-| Chunk IDs cited | ✅ Yes (exp_002, skill_003, etc.) |
+```
+# Interview Report — Ali Azan
+Date: 2026-04-23
+Score: 82%
+Decision: PASS ✅
+
+Q1: Tell me about a time you worked with diverse communities...
+Evidence: Support Worker at NSW Disability Services
+Answer: In my role as Support Worker...
+Score: 8/10
+
+Recommendation: Ali Azan demonstrates strong community engagement
+skills and relevant experience for this role...
+```
 
 ---
 
-## Related Projects
+## 🔗 Documentation
 
-- Week 2 Food RAG: https://github.com/aliazansaroya786/ragfood
-- Week 4 Web App: https://github.com/aliazansaroya786/v0-food-rag-web-app
+- [Product Requirements](docs/prd.md)
+- [Technical Design](docs/design.md)
+- [Implementation Plan](docs/implementation-plan.md)
+- [Agent Instructions](agents.md)
+- [v0.dev Web Prompt](v0_prompt.md)

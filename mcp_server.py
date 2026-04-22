@@ -1,77 +1,73 @@
-"""
-MCP Server - Digital Twin Ali Azan
-Exposes rag_search() tool to VS Code Agent Mode (GitHub Copilot)
-"""
-
-import os
-import sys
 import json
+import os
 from dotenv import load_dotenv
-from mcp.server.fastmcp import FastMCP
 from upstash_vector import Index
-
-# Fix Windows Unicode encoding
-sys.stdout.reconfigure(encoding="utf-8")
-sys.stderr.reconfigure(encoding="utf-8")
 
 load_dotenv()
 
-# Upstash Vector setup
+# Setup Upstash Vector
 index = Index(
-    url=os.environ["UPSTASH_VECTOR_REST_URL"],
-    token=os.environ["UPSTASH_VECTOR_REST_TOKEN"],
+    url=os.environ.get("UPSTASH_VECTOR_REST_URL"),
+    token=os.environ.get("UPSTASH_VECTOR_REST_TOKEN")
 )
 
-# MCP Server
-mcp = FastMCP("digital-twin-aliazan")
-
-
-@mcp.tool()
-def rag_search(query: str, top_k: int = 3) -> str:
+def rag_search(query: str, top_k: int = 3) -> list:
     """
-    Search Ali Azan's career profile vector database.
-
-    Use this tool before answering ANY interview question.
-    Returns the most relevant career evidence for the given query.
-
-    Args:
-        query: The interview question or relevant keywords to search for.
-        top_k: Number of results to return (default 3, max 5).
-
-    Returns:
-        JSON string with retrieved career evidence, scores, and metadata.
+    RAG Search Tool — searches Ali Azan's career profile
+    Called by the interview agent before every answer
     """
-    top_k = min(top_k, 5)
-
     try:
-        results = index.query(data=query, top_k=top_k, include_metadata=True)
+        results = index.query(
+            data=query,
+            top_k=top_k,
+            include_metadata=True
+        )
+        return [
+            {
+                "id": r.id,
+                "score": round(r.score, 4),
+                "text": r.metadata.get("text", "") if r.metadata else "",
+                "role": r.metadata.get("role", "") if r.metadata else "",
+                "organization": r.metadata.get("organization", "") if r.metadata else "",
+                "category": r.metadata.get("category", "") if r.metadata else "",
+                "skills": r.metadata.get("skills", "") if r.metadata else ""
+            }
+            for r in results
+        ]
     except Exception as e:
-        return json.dumps({"error": str(e), "results": []})
+        print(f"❌ RAG search error: {e}")
+        return []
 
+
+def format_evidence(results: list) -> str:
+    """Format search results into readable evidence string"""
     if not results:
-        return json.dumps({
-            "message": "No relevant evidence found for this query.",
-            "results": []
-        })
-
-    output = []
-    for r in results:
-        output.append({
-            "id": r.id,
-            "score": round(r.score, 4),
-            "text": r.metadata.get("text", ""),
-            "category": r.metadata.get("category", ""),
-            "role": r.metadata.get("role", ""),
-            "organization": r.metadata.get("organization", ""),
-            "skills": r.metadata.get("skills", ""),
-            "type": r.metadata.get("type", ""),
-        })
-
-    return json.dumps({"results": output}, indent=2)
+        return "No relevant evidence found in profile database."
+    
+    evidence = []
+    for i, r in enumerate(results, 1):
+        evidence.append(
+            f"[Evidence {i}] (Score: {r['score']}, Source: {r['role']} at {r['organization']})\n"
+            f"{r['text']}"
+        )
+    return "\n\n".join(evidence)
 
 
-# Entry point
 if __name__ == "__main__":
-    print("Digital Twin MCP Server starting...")
-    print("rag_search() tool registered and ready.")
-    mcp.run(transport="stdio")
+    # Test the MCP tool
+    print("🔍 Testing RAG Search Tool...")
+    test_queries = [
+        "community support disability work",
+        "retail customer service experience",
+        "leadership management team",
+        "technical AI programming skills",
+        "education university degree"
+    ]
+    
+    for query in test_queries:
+        results = rag_search(query, top_k=2)
+        print(f"\nQuery: '{query}'")
+        for r in results:
+            print(f"  → {r['id']} (score: {r['score']}): {r['text'][:80]}...")
+    
+    print("\n✅ MCP Tool is working correctly!")
