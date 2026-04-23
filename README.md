@@ -15,7 +15,7 @@
 
 ## 🌐 Live Demo
 
-🔗 **Web Application:** [Add Vercel URL after deployment]  
+🔗 **Web Application:** https://v0-digital-twin-interview-qg59dqygp.vercel.app
 🔗 **GitHub Repository:** https://github.com/aliazansaroya786/digital-twin-aliazan
 
 ---
