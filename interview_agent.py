@@ -7,7 +7,6 @@ from upstash_vector import Index
 
 load_dotenv()
 
-# Setup clients
 groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 index = Index(
     url=os.environ.get("UPSTASH_VECTOR_REST_URL"),
@@ -17,8 +16,8 @@ index = Index(
 CANDIDATE_NAME = "Ali Azan"
 LLM_MODEL = "llama-3.3-70b-versatile"
 
+
 def rag_search(query: str, top_k: int = 3) -> list:
-    """Search Ali Azan's career profile"""
     try:
         results = index.query(data=query, top_k=top_k, include_metadata=True)
         return [
@@ -32,270 +31,196 @@ def rag_search(query: str, top_k: int = 3) -> list:
             for r in results
         ]
     except Exception as e:
-        print(f"❌ Search error: {e}")
+        print(f"Search error: {e}")
         return []
 
 
 def format_evidence(results: list) -> str:
-    """Format retrieved evidence"""
     if not results:
-        return "No relevant evidence found in profile database."
+        return "No relevant evidence found."
     parts = []
     for i, r in enumerate(results, 1):
-        parts.append(
-            f"[Evidence {i}] (Score: {r['score']}) "
-            f"{r['role']} at {r['organization']}\n{r['text']}"
-        )
+        parts.append(f"[Source {i}] {r['role']} at {r['organization']}\n{r['text']}")
     return "\n\n".join(parts)
 
 
 def generate_questions(job_description: str) -> list:
-    """Generate interview questions based on job description"""
-    print("\n🤖 Generating interview questions...\n")
-    
-    prompt = f"""You are a professional interviewer. Based on this job description, 
-generate exactly 6 interview questions for candidate {CANDIDATE_NAME}.
-
-Mix of question types:
-- 2 behavioural questions (Tell me about a time...)
-- 2 technical/skills questions
-- 1 situational question
-- 1 motivational question
-
-Job Description:
+    print("\n Generating interview questions...\n")
+    prompt = f"""Generate exactly 6 interview questions for {CANDIDATE_NAME} based on this job:
 {job_description}
-
-Return ONLY a JSON array of 6 question strings, nothing else.
-Example: ["Question 1?", "Question 2?", ...]"""
+Mix: 2 behavioural, 2 technical, 1 situational, 1 motivational.
+Return ONLY a JSON array: ["Q1?", "Q2?", ...]"""
 
     response = groq_client.chat.completions.create(
         model=LLM_MODEL,
         messages=[{"role": "user", "content": prompt}],
         max_tokens=500
     )
-    
     text = response.choices[0].message.content.strip()
-    # Clean JSON
     if "```" in text:
         text = text.split("```")[1].replace("json", "").strip()
-    
-    questions = json.loads(text)
-    return questions
+    try:
+        return json.loads(text)
+    except:
+        return [
+            "Tell me about yourself.",
+            "Describe a time you worked with diverse communities.",
+            "What technical skills do you bring?",
+            "How do you handle challenging situations?",
+            "Where do you see yourself in 5 years?",
+            "Why are you interested in this position?"
+        ]
 
 
 def answer_question(question: str, job_description: str) -> dict:
-    """Answer a single interview question using RAG"""
-    
-    # Step 1: Search for relevant evidence
-    print(f"  🔍 Searching profile for: '{question[:50]}...'")
     results = rag_search(question, top_k=3)
     evidence = format_evidence(results)
-    
-    # Step 2: Generate answer using evidence
-    prompt = f"""You are {CANDIDATE_NAME}, a professional candidate being interviewed.
-Answer this interview question using ONLY the evidence provided below.
-Use STAR format (Situation, Task, Action, Result) for behavioural questions.
-Speak in first person. Be professional and specific.
-If evidence is not relevant, say you don't have direct experience but relate what you do have.
-
-Job Description Context:
-{job_description[:500]}
-
-Evidence from your career profile:
-{evidence}
-
-Interview Question: {question}
-
-Answer (2-3 paragraphs maximum):"""
 
     response = groq_client.chat.completions.create(
         model=LLM_MODEL,
-        messages=[{"role": "user", "content": prompt}],
+        messages=[{"role": "user", "content": f"""You are {CANDIDATE_NAME} being interviewed.
+Answer using ONLY this evidence. Use STAR format. Speak in first person.
+Job: {job_description[:200]}
+Evidence: {evidence}
+Question: {question}
+Answer:"""}],
         max_tokens=400
     )
-    
     answer = response.choices[0].message.content.strip()
-    
-    # Step 3: Score the answer
-    score_prompt = f"""Rate this interview answer from 1-10 based on:
-- Relevance to the question (40%)
-- Use of specific evidence (40%)  
-- Communication clarity (20%)
 
-Question: {question}
-Answer: {answer}
-
-Return ONLY a number between 1-10, nothing else."""
-
-    score_response = groq_client.chat.completions.create(
+    score_res = groq_client.chat.completions.create(
         model=LLM_MODEL,
-        messages=[{"role": "user", "content": score_prompt}],
+        messages=[{"role": "user", "content": f"Rate 1-10. Return ONLY a number.\nQ:{question}\nA:{answer}"}],
         max_tokens=5
     )
-    
     try:
-        score = int(score_response.choices[0].message.content.strip())
+        score = int(score_res.choices[0].message.content.strip())
         score = max(1, min(10, score))
     except:
         score = 7
-    
-    return {
-        "question": question,
-        "evidence": results,
-        "answer": answer,
-        "score": score
-    }
+
+    return {"question": question, "evidence": results, "answer": answer, "score": score}
 
 
-def generate_report(job_description: str, interview_results: list) -> str:
-    """Generate final interview report with pass/fail decision"""
-    
-    total_score = sum(r["score"] for r in interview_results)
-    avg_score = round(total_score / len(interview_results), 1)
-    percentage = round((avg_score / 10) * 100)
-    decision = "PASS ✅" if percentage >= 70 else "FAIL ❌"
-    
-    # Generate recommendation
-    rec_prompt = f"""Write a professional hiring recommendation for {CANDIDATE_NAME}.
-Candidate scored {percentage}% ({avg_score}/10 average).
-Decision: {"PASS" if percentage >= 70 else "FAIL"}
+def generate_report(job_description: str, results: list) -> tuple:
+    avg = sum(r["score"] for r in results) / len(results)
+    percentage = round((avg / 10) * 100)
+    decision = "PASS" if percentage >= 70 else "FAIL"
 
-Job: {job_description[:300]}
-
-Write 2-3 sentences explaining the recommendation based on the score.
-Be professional and specific."""
-
-    rec_response = groq_client.chat.completions.create(
+    rec = groq_client.chat.completions.create(
         model=LLM_MODEL,
-        messages=[{"role": "user", "content": rec_prompt}],
-        max_tokens=200
+        messages=[{"role": "user", "content": f"2 sentence hiring recommendation for {CANDIDATE_NAME}. Score:{percentage}%. Decision:{decision}. Job:{job_description[:150]}"}],
+        max_tokens=150
     )
-    recommendation = rec_response.choices[0].message.content.strip()
-    
-    # Build report
+
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
-    report = f"""# 📋 Interview Report — {CANDIDATE_NAME}
+    report = f"# Interview Report — {CANDIDATE_NAME}\n\n"
+    report += f"**Date:** {now}\n**Score:** {percentage}%\n**Decision:** {'PASS' if percentage >= 70 else 'FAIL'}\n\n---\n\n"
+    report += f"## Job\n{job_description[:300]}\n\n---\n\n## Transcript\n\n"
 
-**Date:** {now}  
-**Overall Score:** {percentage}%  
-**Average:** {avg_score}/10  
-**Decision:** {decision}  
+    for i, r in enumerate(results, 1):
+        report += f"### Q{i}: {r['question']}\n"
+        for j, ev in enumerate(r['evidence'], 1):
+            report += f"- Source {j}: {ev['role']} at {ev['organization']} ({ev['score']})\n"
+        report += f"\n**Answer:** {r['answer']}\n**Score:** {r['score']}/10\n\n---\n\n"
 
----
-
-## 💼 Job Description
-{job_description[:500]}
-
----
-
-## 📝 Interview Transcript
-
-"""
-    for i, result in enumerate(interview_results, 1):
-        report += f"""### Q{i}: {result['question']}
-
-**🔍 Evidence Retrieved:**
-"""
-        for j, ev in enumerate(result['evidence'], 1):
-            report += f"- [{j}] {ev['role']} at {ev['organization']} (score: {ev['score']})\n"
-        
-        report += f"""
-**💬 Answer:**
-{result['answer']}
-
-**⭐ Score:** {result['score']}/10
-
----
-
-"""
-
-    report += f"""## 🏆 Hiring Recommendation
-
-**Decision: {decision}**  
-**Score: {percentage}%**
-
-{recommendation}
-
----
-*Report generated by Digital Twin AI Agent — {CANDIDATE_NAME}*
-"""
+    report += f"## Recommendation\n**{decision}** — {percentage}%\n\n{rec.choices[0].message.content}\n"
     return report, percentage
+
+
+def chat_mode():
+    print(f"\n{'='*60}")
+    print("FREE CHAT MODE — Ask Anything About Ali Azan")
+    print("Type 'exit' to quit")
+    print(f"{'='*60}\n")
+
+    while True:
+        question = input("You: ").strip()
+        if question.lower() in ["exit", "quit", "q"]:
+            print("Goodbye!")
+            break
+        if not question:
+            continue
+
+        print("Searching profile...")
+        results = rag_search(question, top_k=3)
+        evidence = format_evidence(results)
+
+        response = groq_client.chat.completions.create(
+            model=LLM_MODEL,
+            messages=[
+                {"role": "system", "content": f"You represent {CANDIDATE_NAME}'s profile. Answer using ONLY the evidence. Be professional. Say '{CANDIDATE_NAME}' or 'he/him'."},
+                {"role": "user", "content": f"Evidence:\n{evidence}\n\nQuestion: {question}\n\nAnswer:"}
+            ],
+            max_tokens=400
+        )
+
+        print(f"\nAli Azan's Twin: {response.choices[0].message.content.strip()}")
+        print(f"\nSources:")
+        for i, r in enumerate(results, 1):
+            print(f"  [{i}] {r['role']} at {r['organization']} (score: {r['score']})")
+        print()
 
 
 def run_interview(job_description: str):
-    """Run a complete autonomous interview"""
-    
     print(f"\n{'='*60}")
-    print(f"🤖 DIGITAL TWIN INTERVIEW AGENT")
-    print(f"Candidate: {CANDIDATE_NAME}")
+    print(f"DIGITAL TWIN — {CANDIDATE_NAME}")
     print(f"{'='*60}\n")
-    
-    # Generate questions
+    print("PART 1: AUTOMATED INTERVIEW")
+    print("─"*60)
+
     questions = generate_questions(job_description)
-    print(f"✅ Generated {len(questions)} interview questions\n")
-    
-    # Answer each question
+    print(f"Generated {len(questions)} questions\n")
+
     interview_results = []
     for i, question in enumerate(questions, 1):
-        print(f"\n{'─'*50}")
-        print(f"Q{i}: {question}")
-        print(f"{'─'*50}")
-        
+        print(f"\nQ{i}: {question}")
+        print("─"*40)
         result = answer_question(question, job_description)
         interview_results.append(result)
-        
-        print(f"\n💬 Answer:")
-        print(result["answer"])
-        print(f"\n⭐ Score: {result['score']}/10")
-    
-    # Generate report
-    print(f"\n\n{'='*60}")
-    print("📊 Generating final report...")
-    report, percentage = generate_report(job_description, interview_results)
-    
-    # Save report
-    filename = f"interview_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
-    os.makedirs("reports", exist_ok=True)
-    with open(f"reports/{filename}", "w", encoding="utf-8") as f:
-        f.write(report)
-    
+        print(f"Sources: {', '.join([ev['role'] for ev in result['evidence']])}")
+        print(f"Answer: {result['answer']}")
+        print(f"Score: {result['score']}/10")
+
     print(f"\n{'='*60}")
-    print(f"✅ Interview Complete!")
-    print(f"📊 Final Score: {percentage}%")
-    print(f"{'✅ PASS' if percentage >= 70 else '❌ FAIL'}")
-    print(f"📄 Report saved: reports/{filename}")
-    print(f"{'='*60}\n")
-    
-    return report, percentage
+    print("Generating report...")
+    report, percentage = generate_report(job_description, interview_results)
+
+    os.makedirs("reports", exist_ok=True)
+    filename = f"reports/report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write(report)
+
+    print(f"Score: {percentage}% — {'PASS' if percentage >= 70 else 'FAIL'}")
+    print(f"Report saved: {filename}")
+    print(f"{'='*60}")
+
+    print(f"\nInterview done! Entering FREE CHAT MODE...")
+    print("Now ask anything about Ali Azan!\n")
+    chat_mode()
 
 
 if __name__ == "__main__":
-    print("🤖 Digital Twin Interview Agent")
+    print("Digital Twin — Ali Azan")
     print("="*60)
-    print("\nPaste the job description below.")
-    print("When done, type 'END' on a new line and press Enter:\n")
-    
-    lines = []
-    while True:
-        line = input()
-        if line.strip() == "END":
-            break
-        lines.append(line)
-    
-    job_description = "\n".join(lines)
-    
-    if not job_description.strip():
-        # Use sample job for testing
-        job_description = """
-        Data Analyst — Victoria University
-        We are looking for a motivated Data Analyst with strong analytical skills.
-        Requirements:
-        - Experience with data analysis and reporting
-        - Strong communication skills
-        - Ability to work in a team
-        - Knowledge of information systems
-        - Customer service experience preferred
-        """
-        print("⚠️  No input provided. Using sample job description.")
-    
-    run_interview(job_description)
+    print("\n1. Full Interview (automated + chat)")
+    print("2. Chat Only")
+    choice = input("\nEnter 1 or 2: ").strip()
+
+    if choice == "2":
+        chat_mode()
+    else:
+        print("\nPaste job description. Type END when done:\n")
+        lines = []
+        while True:
+            line = input()
+            if line.strip() == "END":
+                break
+            lines.append(line)
+
+        job_description = "\n".join(lines)
+        if not job_description.strip():
+            job_description = "Data Analyst role requiring strong communication, data analysis, and customer service skills."
+            print("Using sample job.")
+
+        run_interview(job_description)
